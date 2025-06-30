@@ -1,0 +1,7 @@
+services:
+  react-preview:
+    build:
+      context: ./
+      dockerfile: ./node/Dockerfile.prod
+    ports:
+      - "3000:80"

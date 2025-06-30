@@ -1,0 +1,11 @@
+FROM node:20-alpine
+
+WORKDIR /var/www/html/client
+
+COPY ./client/ .
+
+RUN npm install
+
+RUN npm run build
+
+EXPOSE 3000

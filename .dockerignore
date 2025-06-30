@@ -1,0 +1,7 @@
+node/*
+php/*
+.vscode/
+docker-compose.*
+README.md
+**/vendor/*
+**/node_modules/*

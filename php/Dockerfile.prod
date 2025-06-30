@@ -1,0 +1,38 @@
+# Etapa 1: Build da aplicação PHP
+FROM php:8.3-fpm AS build
+
+# Define diretório da aplicação
+WORKDIR /var/www/html
+
+# Instalações essenciais e dependências do sistema
+RUN apt-get update && apt-get install -y \
+    git unzip libzip-dev zip libpng-dev libonig-dev libxml2-dev \
+    && docker-php-ext-install zip pdo pdo_mysql mbstring exif pcntl bcmath \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Instala Composer globalmente
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
+# Copia os arquivos da aplicação
+COPY . .
+
+# Instala as dependências da aplicação
+RUN composer install --no-interaction --optimize-autoloader --no-dev
+
+# Cria um novo usuário e grupo sem privilégios
+RUN groupadd -g 1000 www && \
+    useradd -u 1000 -ms /bin/bash -g www www
+
+# Ajusta permissões
+RUN chown -R www:www /var/www/html && \
+    find /var/www/html -type f -exec chmod 644 {} \; && \
+    find /var/www/html -type d -exec chmod 755 {} \;
+
+# Expõe a porta padrão do PHP-FPM
+EXPOSE 9000
+
+# Define o usuário não-root
+USER www
+
+# Comando padrão do container
+CMD ["php-fpm"]

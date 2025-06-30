@@ -1,0 +1,64 @@
+services:
+  php:
+    build:
+      context: .
+      dockerfile: ./php/Dockerfile.test
+    working_dir: /var/www/html/api
+    volumes:
+      - ./php/php.ini:/usr/local/etc/php/conf.d/php-custom.ini
+    command: >
+      sh -c "
+        php artisan config:clear &&
+        php artisan migrate --force &&
+        ./vendor/bin/phpunit --coverage-clover=storage/coverage.xml &&
+        ./init-sonarqube.sh"
+    environment:
+      DB_HOST: mysql
+      DB_DATABASE: laravel
+      DB_USERNAME: root
+      DB_PASSWORD: root
+      SONARQUBE_LOGIN: admin
+      SONARQUBE_PASS: admin
+    depends_on:
+      - mysql
+      - sonarqube
+
+  mysql:
+    image: mysql:8
+    container_name: mysql-ci
+    environment:
+      MYSQL_DATABASE: laravel
+      MYSQL_ROOT_PASSWORD: root
+  
+  node:
+    build:
+      context: .
+      dockerfile: ./node/Dockerfile.test
+    command:  >
+      sh -c "npm run test -- --coverage \
+      ./init-sonarqube.sh"
+    environment:
+      SONARQUBE_LOGIN: admin
+      SONARQUBE_PASS: admin
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./:/var/www/html
+    depends_on:
+      - sonarqube
+
+
+  sonarqube:
+    image: sonarqube:community
+    container_name: sonarqube
+    ports:
+      - "9001:9000"
+    environment:
+      SONAR_ES_BOOTSTRAP_CHECKS_DISABLE: "true"
+    volumes:
+      - sonarqube_data:/opt/sonarqube/data
+      - sonarqube_extensions:/opt/sonarqube/extensions
+
+volumes:
+  sonarqube_data:
+  sonarqube_extensions:

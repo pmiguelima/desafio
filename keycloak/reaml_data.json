@@ -1,0 +1,40 @@
+{
+  "realm": "desafio",
+  "displayName": "Desafio",
+  "enabled": true,
+  "registrationAllowed": true,
+  "users": [
+    {
+      "id": "user-id-2",
+      "username": "user1",
+      "firstName": "Pedro",
+      "lastName": "Miguel",
+      "email": "user1@teste.com",
+      "enabled": true,
+      "emailVerified": true,
+      "credentials": [
+        {
+          "type": "password",
+          "temporary": false,
+          "secretData" : "{\"value\":\"0c2jvEZk+7Ejfbcx4SkSaOnhuW1HOGG/egiOKT91fnU=\",\"salt\":\"Qd7fGQQQrcQhzEJfIIeG0A==\",\"additionalParameters\":{}}",
+          "credentialData" : "{\"hashIterations\":5,\"algorithm\":\"argon2\",\"additionalParameters\":{\"hashLength\":[\"32\"],\"memory\":[\"7168\"],\"type\":[\"id\"],\"version\":[\"1.3\"],\"parallelism\":[\"1\"]}}"
+        }
+      ]
+    }
+  ],
+  "clients": [
+    {
+      "clientId": "app1",
+      "name": "App1",
+      "enabled": true,
+      "redirectUris": [
+        "http://localhost:8080/*"
+      ],
+      "publicClient": true,
+      "directAccessGrantsEnabled": true,
+      "webOrigins": [
+        "http://localhost:3000"
+      ]
+    }
+  ]
+}
