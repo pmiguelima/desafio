@@ -169,6 +169,58 @@ npm run dev -- --host=0.0.0.0 --port=3000
 
 ---
 
+## Comandos Openshift
+
+Dentro da pasta `api` para iniciar as configurações
+
+```bash
+oc new-app --name=laravel-app --docker-image=<seu-registro>/laravel-app:latest
+```
+
+e na sequencia, utilize esses comandos para aplicar e deployar o serviço de API:
+
+```bash
+oc apply -f deploy/secret.yaml
+oc apply -f deploy/deployment.yaml
+oc apply -f deploy/service.yaml
+oc apply -f deploy/route.yaml
+```
+
+Dentro da pasta `client` para iniciar as configurações
+
+```bash
+oc new-app --name=react-app --docker-image=<seu-registro>/react-app:latest
+```
+
+e o mesmo para o projeto client, utilize esses comandos para aplicar e deployar o serviço de Client:
+
+```bash
+oc apply -f deploy/deployment.yaml
+oc apply -f deploy/service.yaml
+oc apply -f deploy/route.yaml
+```
+
+por último exponha os projetos:
+
+```bash
+oc expose service laravel-app
+```
+
+```bash
+oc expose service react-app
+```
+
+é possivel verificar os detalhes da rota com:
+
+```bash
+oc describe route laravel-app
+```
+
+```bash
+oc describe route react-app
+```
+---
+
 ## Limpeza
 
 ```bash
