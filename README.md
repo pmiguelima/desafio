@@ -26,7 +26,7 @@ Projeto fullstack com autenticação baseada em JWT usando **Keycloak**, **Larav
 docker-compose up --build
 ```
 
-### 2. Gere a chave da aplicação Laravel (em outro terminal), veja também os comandos [aqui](###laravel)!
+### 2. Gere a chave da aplicação Laravel (em outro terminal), veja também os comandos [aqui](#laravel)!
 
 ```bash
 docker-compose exec php php artisan key:generate
