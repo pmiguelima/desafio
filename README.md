@@ -26,13 +26,19 @@ Projeto fullstack com autenticação baseada em JWT usando **Keycloak**, **Larav
 docker-compose up --build
 ```
 
-### 2. Gere a chave da aplicação Laravel (em outro terminal)
+### 2. Gere a chave da aplicação Laravel (em outro terminal), veja também os comandos [aqui](###laravel)!
 
 ```bash
 docker-compose exec php php artisan key:generate
 ```
 
-### 3. Acesse os serviços no navegador
+### 3. Rode as migrações
+
+```bash
+docker-compose exec php php artisan migrate
+```
+
+### 4. Acesse os serviços no navegador
 
 | Serviço       | URL                                 |
 |---------------|-------------------------------------|
@@ -40,21 +46,36 @@ docker-compose exec php php artisan key:generate
 | Laravel (API) | http://localhost:8080/api/hello     |
 | Keycloak      | http://localhost:8081               |
 
+
+### 5. Teste de login
+Acesse o formulário no *http://localhost:3000*, e utilize os seguintes dados de acesso:
+| Usuário | Senha |
+|---------|-------|
+| user1   | admin |
+
 ---
 
 ## Estrutura de Diretórios
 
 ```
 .
-├── docker-compose.yml          # Orquestração dos serviços
-├── php/                    # Backend Laravel 11
-│   ├── Dockerfile.dev              # PHP-FPM com Composer
-├── node/             # Frontend React + TS + Vite
-│   ├── Dockerfile.dev              # Container Node.js 22
+├── docker-compose.preview.yml          # Prévisualização do frontend buildado para produção
+├── docker-compose.test.yml          # Orquestração dos testes automatizados com sonarqube
+├── docker-compose.yml          # Orquestração dos serviços em desenvolvimento
+├── php/                    # Arquivos para construção da imagem php
+│   ├── Dockerfile.dev              # PHP-FPM com Composer para desenvolvimento
+│   ├── Dockerfile.test              # PHP-FPM com Composer para test com sonarqube configurado
+├── node/             # Arquivos para construção da imagem Frontend React + TS + Vite
+│   ├── Dockerfile.dev              # Container Node.js 22 para desenvolvimento
+│   ├── Dockerfile.test              # Container Node.js 22 para test com sonarqube configurado
+│   ├── Dockerfile.prod              # Container Node.js 22 para build de produção
 ├── keycloak/               # Realm exportado do Keycloak (.json)
+├── nginx                      # Configuração para build de prod para a app react
 ├── api                      # Código fonte Laravel
 ├── client                      # Código fonte React/typescript
 │   └── src/App.tsx            # Tela de login e requisição protegida
+├── desafio.postman_collection.json                      # Arquivo para importação no postman
+
 ```
 
 ---
