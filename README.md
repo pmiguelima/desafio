@@ -20,25 +20,47 @@ Projeto fullstack com autenticação baseada em JWT usando **Keycloak**, **Larav
 
 > Requisitos: Docker e Docker Compose instalados.
 
-### 1. Suba todos os serviços
+### 1. Instale as dependencias
+
+Para instalar as dependencias do node
+
+```bash
+docker-compose run node sh
+
+npm install
+
+exit
+```
+
+Para instalar as dependencias do php
+
+```bash
+docker-compose run php bash
+
+composer install
+
+exit
+```
+
+### 2. Suba todos os serviços
 
 ```bash
 docker-compose up --build
 ```
 
-### 2. Gere a chave da aplicação Laravel (em outro terminal), veja também os comandos [aqui](#laravel)!
+### 3. Gere a chave da aplicação Laravel (em outro terminal), veja também os comandos [aqui](#laravel)!
 
 ```bash
 docker-compose exec php php artisan key:generate
 ```
 
-### 3. Rode as migrações
+### 4. Rode as migrações
 
 ```bash
 docker-compose exec php php artisan migrate
 ```
 
-### 4. Acesse os serviços no navegador
+### 5. Acesse os serviços no navegador
 
 | Serviço       | URL                                 |
 |---------------|-------------------------------------|
@@ -47,7 +69,7 @@ docker-compose exec php php artisan migrate
 | Keycloak      | http://localhost:8081               |
 
 
-### 5. Teste de login
+### 6. Teste de login
 Acesse o formulário no *http://localhost:3000*, e utilize os seguintes dados de acesso:
 | Usuário | Senha |
 |---------|-------|
